@@ -286,7 +286,7 @@
 </head>
 <body>
     <div class="toolbar">
-        <h1>🎨 Grid Editor v3</h1>
+        <h1>🎨 Tequenos - Grid Editor</h1>
         
         <div class="tool-group">
             <label>Tool:</label>
@@ -534,9 +534,31 @@
             const key = `${row}-${col}`;
             
             if (currentTool === 'draw') {
-                cell.style.backgroundColor = currentColor;
-                cell.classList.add('filled');
-                gridState[key] = currentColor;
+                // Se o quadrado pertence a um objeto, atualizar a cor de todas as células do objeto
+                const obj = findObjectContainingCell(row, col);
+                if (obj) {
+                    obj.color = currentColor;
+                    obj.cells.forEach(c => {
+                        const k = `${c.row}-${c.col}`;
+                        gridState[k] = currentColor;
+                        const cellElement = document.querySelector(`[data-row="${c.row}"][data-col="${c.col}"]`);
+                        if (cellElement) {
+                            cellElement.style.backgroundColor = currentColor;
+                            cellElement.classList.add('filled');
+                        }
+                    });
+                    if (obj.text && obj.text.trim() !== '') {
+                        renderObjectText(obj);
+                    }
+                    if (selectedObject && selectedObject.id === obj.id) {
+                        updateObjectInfo();
+                    }
+                } else {
+                    // Caso não pertença a um objeto, apenas pinta o quadradinho
+                    cell.style.backgroundColor = currentColor;
+                    cell.classList.add('filled');
+                    gridState[key] = currentColor;
+                }
             } else if (currentTool === 'erase') {
                 cell.style.backgroundColor = '';
                 cell.classList.remove('filled');
