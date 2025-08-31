@@ -1054,6 +1054,27 @@
         }
 
         function saveToJSON() {
+            // Preserve previous objects (may contain user-added texts)
+            const previousObjects = objects.slice();
+
+            // Re-identify objects from current gridState (this updates global `objects`)
+            identifyObjects();
+
+            // Merge texts/ids from previousObjects into the newly identified objects
+            objects.forEach(obj => {
+                const match = previousObjects.find(prev => {
+                    const prevKeys = new Set(prev.cells.map(c => `${c.row}-${c.col}`));
+                    return obj.cells.some(c => prevKeys.has(`${c.row}-${c.col}`));
+                });
+                if (match) {
+                    // copy text and id if available
+                    obj.text = match.text || obj.text || '';
+                    obj.id = match.id || obj.id;
+                } else {
+                    obj.text = obj.text || '';
+                }
+            });
+
             const data = {
                 gridState: gridState,
                 objects: objects,
