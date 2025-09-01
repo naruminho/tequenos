@@ -1,4 +1,4 @@
-# Tequenos - Grid Editor v3
+# Tequeños - Grid Editor v3
 
 A minimal grid editor written in **vanilla JavaScript**, with **no external dependencies**.  
 It runs fully **offline**, directly in your browser.  
