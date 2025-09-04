@@ -49,3 +49,4 @@ The exported file looks like this:
   "gridHeight": 100,
   "version": "3.0"
 }
+```
