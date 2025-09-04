@@ -23,7 +23,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #2C3E50;
             padding: 15px 20px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             z-index: 1000;
@@ -72,17 +72,17 @@
         }
 
         .btn.active {
-            background: #4CAF50;
+            background: #1abc9c;
             color: white;
         }
 
         .btn.eraser.active {
-            background: #f44336;
+            background: #e74c3c;
             color: white;
         }
 
         .btn.select.active {
-            background: #2196F3;
+            background: #3498db;
             color: white;
         }
 
@@ -211,8 +211,8 @@
 
         .instructions {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            top: 90px;
+            right: 20px;
             background: rgba(0,0,0,0.7);
             color: white;
             padding: 12px 16px;
@@ -224,7 +224,7 @@
 
         .instructions h3 {
             margin-bottom: 8px;
-            color: #4CAF50;
+            color: #1abc9c;
         }
 
         .instructions ul {
@@ -239,7 +239,7 @@
 
         .instructions li:before {
             content: "•";
-            color: #4CAF50;
+            color: #1abc9c;
             position: absolute;
             left: 0;
         }
@@ -247,7 +247,7 @@
         .object-info {
             position: fixed;
             top: 90px;
-            right: 20px;
+            left: 20px;
             background: rgba(0,0,0,0.8);
             color: white;
             padding: 12px 16px;
@@ -1086,10 +1086,19 @@
             const jsonString = JSON.stringify(data, null, 2);
             const blob = new Blob([jsonString], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
-            
+
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'grid-drawing.json';
+            let fileName = prompt('Enter file name', 'grid-drawing.json');
+            if (fileName === null) {
+                URL.revokeObjectURL(url);
+                return;
+            }
+            fileName = fileName.trim();
+            if (!fileName.toLowerCase().endsWith('.json')) {
+                fileName += '.json';
+            }
+            a.download = fileName;
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
@@ -1132,8 +1141,6 @@
                     
                     // Render object texts
                     renderAllObjectTexts();
-                    
-                    alert('Drawing loaded successfully!');
                 } catch (error) {
                     alert('Error loading file: ' + error.message);
                 }
