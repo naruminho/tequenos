@@ -1,5 +1,6 @@
 # Tequeños - Grid Editor v3
 
+
 A minimal grid editor written in **vanilla JavaScript**, with **no external dependencies**.  
 It runs fully **offline**, directly in your browser.  
 Perfect for creating pixel-style drawings, assembling Tetris-like pieces, and saving/loading your work in JSON.
